@@ -943,7 +943,7 @@
   )
 
   (gr_rect (start 136.505 139.495) (end 152.005 40.995) (layer "Edge.Cuts") (width 0.1) (fill none) (tstamp fbfff4ae-e2d7-448a-abb4-36e414add74f))
-  (gr_text "Saint Gimp\nBallistic\nChronograph\nEmitter 1.01" (at 147.505 62.995 270) (layer "B.SilkS") (tstamp 090d4dc4-d333-46ec-96bc-f87beaca64fe)
+  (gr_text "Saint Gimp\nBallistic\nChronograph\nEmitter 1.0.1" (at 147.505 62.995 270) (layer "B.SilkS") (tstamp 090d4dc4-d333-46ec-96bc-f87beaca64fe)
     (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
   )
   (gr_text "Current Adj" (at 144.005 83.995 90) (layer "B.SilkS") (tstamp 48590f6e-49b8-4e4f-a9cd-6bcb7b95f32b)
