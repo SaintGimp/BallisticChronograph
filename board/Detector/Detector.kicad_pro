@@ -403,7 +403,7 @@
       "idf": "",
       "netlist": "",
       "specctra_dsn": "",
-      "step": "",
+      "step": "../../../../../Temp/DetectorBoard.step",
       "vrml": ""
     },
     "page_layout_descr_file": ""
