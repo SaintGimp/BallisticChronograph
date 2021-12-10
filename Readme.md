@@ -1,0 +1,1 @@
+This project is heavily based on https://github.com/td0g/ballistic_chronograph_mk2 but modified to use phototransistors rather than photodiodes, mostly because components for the boost converter in the original design are really hard to source right now, and I also wanted to optimize for my own use cases.
