@@ -37,6 +37,9 @@ volatile long time1 = 0;
 volatile long time2 = 0;
 
 int numberOfEvents = 0;
+int unfinishedEvents = 0;
+long intervalInMicros = 0;
+float speedInMetersPerSecond = 0;
 
 Adafruit_SH1107 display = Adafruit_SH1107(64, 128, &Wire);
 
@@ -65,9 +68,10 @@ void setup() {
   display.display();
 }
 
-void loop() {
+void loop() {  
   if (!digitalRead(BUTTON_C)) {
     numberOfEvents = 0;
+    unfinishedEvents = 0;
 
     display.clearDisplay();
     display.setCursor(0,0);
@@ -81,26 +85,32 @@ void loop() {
 
     // Reset after some time if only one sensor triggered
     long currentTime = micros();
-    if (time1 > 0 && currentTime - time1 > 2000000)
+    if ((time1 > 0 && currentTime - time1 > 2000000) || (time2 > 0 && currentTime - time2 > 2000000))
     {
       time1 = 0;
-    }
-    else if (time2 > 0 && currentTime - time2 > 2000000)
-    {
       time2 = 0;
+      unfinishedEvents++;
+      displayData(intervalInMicros, speedInMetersPerSecond);
+      digitalWrite(LED_BUILTIN, LOW);
     }
-  }
-  else
-  {
-    digitalWrite(LED_BUILTIN, LOW);
   }
   
   if (time1 > 0 && time2 > 0)
   {
     numberOfEvents++;
     
-    long intervalInMicros = abs(time1 - time2);
-    float speedInMetersPerSecond = (millimetersBetweenSensors / 1000.0f) / (intervalInMicros / 1000000.0f);
+    intervalInMicros = abs(time1 - time2);
+    speedInMetersPerSecond = (millimetersBetweenSensors / 1000.0f) / (intervalInMicros / 1000000.0f);
+    displayData(intervalInMicros, speedInMetersPerSecond);
+
+    delay(500);
+    digitalWrite(LED_BUILTIN, LOW);
+    time1 = 0;
+    time2 = 0;
+  }
+}
+
+void displayData(long intervalInMicros, float speedInMetersPerSecond) {
     display.clearDisplay();
     display.setCursor(0,0);
     display.print(intervalInMicros);
@@ -109,14 +119,12 @@ void loop() {
     display.println(" m/s");
     display.print(numberOfEvents);
     display.println(" events");
+    display.print(unfinishedEvents);
+    display.println(" unfinished");
     display.display();
 
     Serial.print(speedInMetersPerSecond);
-    Serial.println(" m/s");
-
-    time1 = 0;
-    time2 = 0;
-  }
+    Serial.println(" m/s");  
 }
 
 void pulse1_falling() {
